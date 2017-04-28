@@ -1,3 +1,6 @@
 {
-	"jskey1": "jsval1"
+	"jskey1": "jsval1",
+	"key1": {
+		"key3": "val3"
+	}
 }
