@@ -13,6 +13,8 @@ consulsync -datacenter ams2 -consul-address demo.consul.io -kv-prefix test jsonf
 
 You may specify `-dryrun` to only show the changes that would be made and `-quiet` to silence any output.
 
+When multiple files are provided, each one is processed in turn in to the same map. This means that the contents of the later files will override the earlier ones.
+
 ### String filters
 
 While the main purpose of consulsync is to mirror structures from version controlled config files in to KV prefixes, there are some specific serialisation features to make some things nicer to do. These filters cause the subtree of a key to be marshaled in to a string format and stored in the key that contained the trigger tag.
