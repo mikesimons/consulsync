@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/hashicorp/consul/api"
 	"gopkg.in/urfave/cli.v1"
 	"gopkg.in/yaml.v2"
@@ -34,9 +35,9 @@ func process(data interface{}, output *map[string]interface{}) {
 	}
 
 	stringMarshallers := map[string]stringMarshaller{
-		"!env$":  envMarshal,
-		"!yaml$": yamlMarshal,
-		"!json$": jsonMarshal,
+		"!env":  envMarshal,
+		"!yaml": yamlMarshal,
+		"!json": jsonMarshal,
 	}
 
 	gt := &Traverser{}
@@ -49,9 +50,10 @@ func process(data interface{}, output *map[string]interface{}) {
 	}
 
 	gt.Map = func(keys []string, key string, data interface{}) {
-		for pattern, fn := range stringMarshallers {
+		for tag, fn := range stringMarshallers {
+			pattern := fmt.Sprintf("%s$", tag)
 			if value, applied := applyIfKeyMatch(key, pattern, fn, data); applied {
-				(*output)[strings.Join(append(keys, key), "/")] = value
+				(*output)[strings.Join(append(keys, strings.TrimSuffix(key, tag)), "/")] = value
 				return
 			}
 		}
