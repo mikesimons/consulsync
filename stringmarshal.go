@@ -22,7 +22,17 @@ func envMarshal(data interface{}) string {
 	out := &([]string{})
 
 	gt := &Traverser{Node: func(keys []string, data interface{}) {
-		*out = append(*out, fmt.Sprintf("%v=%v", strings.ToUpper(strings.Join(keys, "_")), data))
+		key := strings.ToUpper(strings.Join(keys, "_"))
+
+		if key == "" {
+			return
+		}
+
+		if data == nil {
+			data = (interface{})("")
+		}
+
+		*out = append(*out, fmt.Sprintf("%v=%v", key, data))
 	}}
 	gt.Traverse(data, keys)
 	return strings.Join(*out, "\n")
@@ -41,4 +51,13 @@ func jsonMarshal(data interface{}) string {
 	json, _ := json.Marshal(tempMap)
 	return string(json)
 
+}
+
+func linesMarshal(data interface{}) string {
+	var out []string
+	d := data.([]interface{})
+	for _, line := range d {
+		out = append(out, fmt.Sprintf("%v", line))
+	}
+	return strings.Join(out, "\n")
 }

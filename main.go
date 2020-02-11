@@ -35,9 +35,10 @@ func process(data interface{}, output *map[string]interface{}) {
 	}
 
 	stringMarshallers := map[string]stringMarshaller{
-		"!env":  envMarshal,
-		"!yaml": yamlMarshal,
-		"!json": jsonMarshal,
+		"!env":   envMarshal,
+		"!yaml":  yamlMarshal,
+		"!json":  jsonMarshal,
+		"!lines": linesMarshal,
 	}
 
 	gt := &Traverser{}

@@ -26,7 +26,7 @@ func diffConsulData(kvPrefix string, consulData api.KVPairs, data map[string]int
 	for _, pair := range consulData {
 		k := pair.Key[len(kvPrefix)+1 : len(pair.Key)]
 		if _, ok := data[k]; ok {
-			if data[k] != string(pair.Value) {
+			if fmt.Sprintf("%v", data[k]) != string(pair.Value) {
 				result.Change[pair.Key] = data[k]
 			}
 		} else {
